@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <math.h>
+
+double toplamCarpim(float r[], int n) {
+    double toplam = 0.0;
+    int toplamKumeSayisi = pow(2, n);
+
+    // 1'den 2^n - 1'e kadar tüm kümeler
+    for (int i = 1; i < toplamKumeSayisi; i++) {
+        double carpim = 1.0;
+
+        for (int j = 0; j < n; j++) {
+            // Eğer j'inci eleman kümeye dahilse
+            if (i & (1 << j)) {
+                carpim *= r[j];
+            }
+        }
+
+        toplam += carpim;
+    }
+
+    return toplam;
+}
+
+int main() {
+    int a, c, n = 0;
+    int b[50];
+    float k[50];
+    float d[50];
+
+    printf("Kac mac girilecek: ");
+    scanf("%d", &a);
+
+    for (int i = 0; i < a; i++) {
+        printf("%d. macin oranini gir: ", i);
+        scanf("%f", &k[i]);
+    }
+
+    double sonuc = toplamCarpim(k, a);
+    printf("Alt kumelerin carpimlarinin toplamı: %.2f\n", sonuc);
+
+    printf("Kac mac cikarilacak: ");
+    scanf("%d", &c);
+
+    for (int i = 0; i < c; i++) {
+        printf("\nHangi maclar cikarilacak (sira girin): ");
+        scanf("%d", &b[i]);
+    }
+
+    // Yeni diziyi oluşturma
+    for (int i = 0; i < a; i++) {
+        int cikart = 0;
+        for (int j = 0; j < c; j++) {
+            if (i == b[j]) {
+                cikart = 1;
+                break;
+            }
+        }
+        if (!cikart) {
+            d[n] = k[i];
+            n++;
+        }
+    }
+
+    // Yeni dizi elemanlarını yazdırma
+    for (int i = 0; i < n; i++) {
+        printf("%.2f\n", d[i]);
+    }
+
+    double dsonuc = toplamCarpim(d, n);
+    printf("Alt kumelerin carpimlarinin toplami: %.2f\n", dsonuc);
+
+    return 0;
+}
